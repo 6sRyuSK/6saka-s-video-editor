@@ -21,3 +21,15 @@ export default class EditorTop extends Vue {
   }
 }
 </script>
+
+<style lang="scss">
+#editor-top {
+  width: 100%;
+  height: 50%;
+}
+#file-drop-area {
+  width: 100%;
+  height: 100%;
+  border: dotted 2px grey;
+}
+</style>
