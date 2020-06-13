@@ -21,12 +21,23 @@ export default class App extends Vue {
 </script>
 
 <style>
+body {
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  width: 95%;
+  height: 95%;
+  margin: 0 auto;
+  padding: 5px;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 </style>
