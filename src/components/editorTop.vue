@@ -42,6 +42,7 @@ export default class EditorTop extends Vue {
     fileDropAreaElm.addEventListener('drop', event => {
       event.stopPropagation()
       event.preventDefault()
+      fileDropAreaElm.innerText = 'now loading...'
       if (!event.dataTransfer) return
       state.inputFile = event.dataTransfer.files[0]
       this.selectedFile(event.dataTransfer.files[0])
