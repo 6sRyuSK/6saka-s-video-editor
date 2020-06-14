@@ -1,12 +1,17 @@
 <template>
   <div id="app">
     <editorTop />
+    <button @click="encode">encode</button>
+    <video controls id="output-video" width="620"></video>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import editorTop from '@/components/editorTop.vue'
+import { state } from '@/store/store'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { createFFmpeg } = require('@ffmpeg/ffmpeg')
 
 @Component({
   components: {
@@ -14,6 +19,19 @@ import editorTop from '@/components/editorTop.vue'
   }
 })
 export default class App extends Vue {
+  private ffmpeg = createFFmpeg({ log: true })
+  public async encode () {
+    if (!state.inputFile) return
+    await this.ffmpeg.load()
+    await this.ffmpeg.write(state.inputFile.name, state.inputFile)
+    await this.ffmpeg.trim(state.inputFile.name, 'output.mp4', 0, 10)
+    const data = this.ffmpeg.read('output.mp4')
+
+    const video = document.getElementById('output-video')
+    if (!video) return
+    video.setAttribute('src', URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' })))
+  }
+
   created () {
     console.log('hello')
   }

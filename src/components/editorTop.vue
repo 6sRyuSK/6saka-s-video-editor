@@ -43,6 +43,7 @@ export default class EditorTop extends Vue {
       event.stopPropagation()
       event.preventDefault()
       if (!event.dataTransfer) return
+      state.inputFile = event.dataTransfer.files[0]
       this.selectedFile(event.dataTransfer.files[0])
     }, false)
   }

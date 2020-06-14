@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 export type State = {
+  inputFile: File | undefined;
   inputVPath: string;
   outputVPath: string;
   encode: boolean;
@@ -9,6 +10,7 @@ export type State = {
 }
 
 export const state = Vue.observable<State>({
+  inputFile: undefined,
   inputVPath: '',
   outputVPath: '',
   encode: false,
