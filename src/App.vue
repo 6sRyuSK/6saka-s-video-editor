@@ -25,12 +25,16 @@ export default class App extends Vue {
     return state.inputFile
   }
 
+  get trimTime () {
+    return [state.startTime, state.endTime - state.startTime]
+  }
+
   public async trim () {
     const fileData = this.inputFileData
     if (!fileData) return
     await this.ffmpeg.load()
     await this.ffmpeg.write(fileData.name, fileData)
-    await this.ffmpeg.run(`-ss 0 -i ${fileData.name} -t 10 -vcodec copy -acodec copy output.mp4`)
+    await this.ffmpeg.run(`-ss ${this.trimTime[0]} -i ${fileData.name} -t ${this.trimTime[1]} -vcodec copy -acodec copy output.mp4`)
     const data = this.ffmpeg.read('output.mp4')
 
     const video = document.getElementById('output-video')

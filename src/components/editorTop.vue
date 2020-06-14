@@ -3,7 +3,12 @@
     <div id="monitor" v-show="selected">
       <video id="monitor-video" controls></video>
     </div>
-    <div id="timeline" v-show="selected"></div>
+    <div id="controllpanel" v-show="selected">
+      <span>{{ startTime }}</span>
+      <button @click="setTime('start')">setStart</button>
+      <button @click="setTime('end')">setEnd</button>
+      <span>{{ endTime }}</span>
+    </div>
     <div id="file-drop-area" v-if="!selected"></div>
   </div>
 </template>
@@ -18,15 +23,35 @@ export default class EditorTop extends Vue {
     return state.selected
   }
 
+  get startTime () {
+    return state.startTime
+  }
+
+  get endTime () {
+    return state.endTime
+  }
+
+  setTime (option: 'start' | 'end') {
+    const videoElm = document.getElementById('monitor-video') as HTMLVideoElement
+    if (option === 'start') {
+      state.startTime = videoElm.currentTime
+    } else if (option === 'end') {
+      state.endTime = videoElm.currentTime
+    }
+  }
+
   selectedFile (file: Blob): void {
     const fr = new FileReader()
     fr.readAsArrayBuffer(file)
     fr.onload = () => {
       if (!fr.result) throw new Error(fr.result || 'fr.result is null')
       state.selected = true
-      const videoElm = document.getElementById('monitor-video')
+      const videoElm = document.getElementById('monitor-video') as HTMLVideoElement
       if (!videoElm) throw new Error('not exit monitor-video')
-      videoElm.setAttribute('src', URL.createObjectURL(new Blob([fr.result], { type: 'video/mp4' })))
+      videoElm.src = URL.createObjectURL(new Blob([fr.result], { type: 'video/mp4' }))
+      videoElm.onload = () => {
+        state.endTime = videoElm.duration
+      }
     }
   }
 
