@@ -30,7 +30,7 @@ export default class EditorTop extends Vue {
     }
   }
 
-  mounted () {
+  attachEvent (): void {
     const fileDropAreaElm = document.getElementById('file-drop-area')
     if (!fileDropAreaElm) throw new Error('not exist file-drop-area')
     fileDropAreaElm.addEventListener('dragover', event => {
@@ -45,6 +45,10 @@ export default class EditorTop extends Vue {
       if (!event.dataTransfer) return
       this.selectedFile(event.dataTransfer.files[0])
     }, false)
+  }
+
+  mounted () {
+    this.attachEvent()
   }
 }
 </script>
