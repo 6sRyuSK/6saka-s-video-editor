@@ -1,10 +1,10 @@
 <template>
   <div id="editor-top">
-    <div id="monitor" v-show="inputVPath">
+    <div id="monitor" v-show="selected">
       <video id="monitor-video" controls></video>
     </div>
-    <div id="timeline" v-show="inputVPath"></div>
-    <div id="file-drop-area" v-if="!inputVPath"></div>
+    <div id="timeline" v-show="selected"></div>
+    <div id="file-drop-area" v-if="!selected"></div>
   </div>
 </template>
 
@@ -14,19 +14,19 @@ import { state } from '@/store/store'
 
 @Component
 export default class EditorTop extends Vue {
-  get inputVPath () {
-    return !!state.inputVPath
+  get selected () {
+    return state.selected
   }
 
   selectedFile (file: Blob): void {
     const fr = new FileReader()
-    fr.readAsDataURL(file)
+    fr.readAsArrayBuffer(file)
     fr.onload = () => {
-      if (typeof (fr.result) !== 'string') throw new Error(typeof (fr.result))
-      state.inputVPath = fr.result
+      if (!fr.result) throw new Error(fr.result || 'fr.result is null')
+      state.selected = true
       const videoElm = document.getElementById('monitor-video')
       if (!videoElm) throw new Error('not exit monitor-video')
-      videoElm.setAttribute('src', fr.result)
+      videoElm.setAttribute('src', URL.createObjectURL(new Blob([fr.result], { type: 'video/mp4' })))
     }
   }
 

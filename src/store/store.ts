@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export type State = {
   inputFile: File | undefined;
-  inputVPath: string;
+  selected: boolean;
   outputVPath: string;
   encode: boolean;
   startFrame: number;
@@ -11,7 +11,7 @@ export type State = {
 
 export const state = Vue.observable<State>({
   inputFile: undefined,
-  inputVPath: '',
+  selected: false,
   outputVPath: '',
   encode: false,
   startFrame: 0,
