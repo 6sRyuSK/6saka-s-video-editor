@@ -20,11 +20,17 @@ const { createFFmpeg } = require('@ffmpeg/ffmpeg')
 })
 export default class App extends Vue {
   private ffmpeg = createFFmpeg({ log: true })
+
+  get inputFileData () {
+    return state.inputFile
+  }
+
   public async trim () {
-    if (!state.inputFile) return
+    const fileData = this.inputFileData
+    if (!fileData) return
     await this.ffmpeg.load()
-    await this.ffmpeg.write(state.inputFile.name, state.inputFile)
-    await this.ffmpeg.run(`-ss 0 -i ${state.inputFile.name} -t 10 -vcodec copy -acodec copy output.mp4`)
+    await this.ffmpeg.write(fileData.name, fileData)
+    await this.ffmpeg.run(`-ss 0 -i ${fileData.name} -t 10 -vcodec copy -acodec copy output.mp4`)
     const data = this.ffmpeg.read('output.mp4')
 
     const video = document.getElementById('output-video')
