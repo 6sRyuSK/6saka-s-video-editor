@@ -19,17 +19,14 @@ export default class EditorTop extends Vue {
   }
 
   selectedFile (file: Blob): void {
-    console.log(file)
     const fr = new FileReader()
     fr.readAsDataURL(file)
     fr.onload = () => {
-      console.log('complete')
       if (typeof (fr.result) !== 'string') throw new Error(typeof (fr.result))
       state.inputVPath = fr.result
       const videoElm = document.getElementById('monitor-video')
       if (!videoElm) throw new Error('not exit monitor-video')
       videoElm.setAttribute('src', fr.result)
-      console.log(state.inputVPath)
     }
   }
 
@@ -45,11 +42,9 @@ export default class EditorTop extends Vue {
     fileDropAreaElm.addEventListener('drop', event => {
       event.stopPropagation()
       event.preventDefault()
-      console.log(event)
       if (!event.dataTransfer) return
       this.selectedFile(event.dataTransfer.files[0])
     }, false)
-    console.log(fileDropAreaElm)
   }
 }
 </script>
