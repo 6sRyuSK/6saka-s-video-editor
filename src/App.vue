@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <editorTop />
-    <button @click="encode">encode</button>
+    <button @click="trim">encode</button>
     <video controls id="output-video" width="620"></video>
   </div>
 </template>
@@ -20,7 +20,7 @@ const { createFFmpeg } = require('@ffmpeg/ffmpeg')
 })
 export default class App extends Vue {
   private ffmpeg = createFFmpeg({ log: true })
-  public async encode () {
+  public async trim () {
     if (!state.inputFile) return
     await this.ffmpeg.load()
     await this.ffmpeg.write(state.inputFile.name, state.inputFile)
