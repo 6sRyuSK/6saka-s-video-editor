@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <editorTop />
-    <button @click="trim">encode</button>
+    <button @click="trim">トリミング</button>
     <video controls id="output-video" width="620"></video>
   </div>
 </template>
