@@ -5,8 +5,8 @@ export type State = {
   selected: boolean;
   outputVPath: string;
   encode: boolean;
-  startFrame: number;
-  endFrame: number;
+  startTime: number;
+  endTime: number;
 }
 
 export const state = Vue.observable<State>({
@@ -14,6 +14,6 @@ export const state = Vue.observable<State>({
   selected: false,
   outputVPath: '',
   encode: false,
-  startFrame: 0,
-  endFrame: 0
+  startTime: 0,
+  endTime: 0
 })
